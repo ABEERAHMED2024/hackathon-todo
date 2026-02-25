@@ -1,5 +1,7 @@
 """Application entrypoint for the Todo CLI application."""
 
+import sys
+
 from domain.services import TaskService
 from infrastructure.in_memory_repository import InMemoryTaskRepository
 from cli.controller import CLIController
@@ -18,7 +20,11 @@ def main() -> None:
     service = TaskService(repository)
     controller = CLIController(service)
 
-    controller.run()
+    try:
+        controller.run()
+    except KeyboardInterrupt:
+        print("\nGoodbye!")
+        sys.exit(0)
 
 
 if __name__ == "__main__":
